@@ -10,7 +10,7 @@ function requestVideos(search) {
   }
 }
 
-function receiveVideos(response) {
+function receiveVideos(response, search) {
   return {
     type: RECEIVE_VIDEOS,
     videos: response.data.items
@@ -20,7 +20,7 @@ function receiveVideos(response) {
 export function fetchVideos(search) {
   return dispatch => {
     dispatch(requestVideos(search));
-    return axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${API_KEY}`)
+    return axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&order=date&key=${API_KEY}`)
       .then(response => dispatch(receiveVideos(response)));
   }
 }

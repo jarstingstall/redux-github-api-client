@@ -20,3 +20,13 @@ export function isFetching(state = false, action) {
       return state;
   }
 }
+
+export function searchTerm(state = '', action) {
+  switch (action.type) {
+    case REQUEST_VIDEOS:
+      return action.search;
+      break;
+    default:
+      return state;
+  }
+}

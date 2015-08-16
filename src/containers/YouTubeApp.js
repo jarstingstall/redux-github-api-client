@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import SearchBar from './SearchBar';
+import SearchBar from '../components/SearchBar';
+import VideoList from '../components/VideoList';
+import SearchResults from '../components/SearchResults';
 import { fetchVideos } from '../actions';
 
 class YouTubeApp extends Component {
@@ -12,13 +14,21 @@ class YouTubeApp extends Component {
   }
 
   render() {
-    const { videos, isFetching } = this.props;
+    const { videos, isFetching, searchTerm } = this.props;
 
     return (
       <div className="container-fluid">
         <div className="row" style={{marginTop: 32}}>
           <SearchBar onSearch={this.handleSearch.bind(this)} />
-          <div className="col-md-6 col-md-offset-3">{ isFetching && 'Loading...'}</div>
+          <div className="col-md-6 col-md-offset-3" style={{marginTop: 32}}>
+            {isFetching ?
+              `Loading...` :
+              <div>
+                <SearchResults searchTerm={ searchTerm } />
+                <VideoList videos={videos}/>
+              </div>
+            }
+          </div>
         </div>
       </div>
     )
@@ -26,5 +36,9 @@ class YouTubeApp extends Component {
 }
 
 export default connect(state =>
-  ({videos: state.videos, isFetching: state.isFetching}))
+  ({
+    videos: state.videos,
+    isFetching: state.isFetching,
+    searchTerm: state.searchTerm
+  }))
   (YouTubeApp);
