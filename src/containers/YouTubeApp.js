@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import SearchBar from '../components/SearchBar';
 import VideoList from '../components/VideoList';
 import SearchResults from '../components/SearchResults';
+import StatusBar from '../components/StatusBar';
 import { fetchVideos } from '../actions';
 
 class YouTubeApp extends Component {
@@ -22,9 +23,9 @@ class YouTubeApp extends Component {
           <SearchBar onSearch={this.handleSearch.bind(this)} />
           <div className="col-md-6 col-md-offset-3" style={{marginTop: 32}}>
             {isFetching ?
-              `Loading...` :
+              <StatusBar type="warning" message="Loading..."/> :
               <div>
-                <SearchResults searchTerm={ searchTerm } />
+                {searchTerm === '' ? '' : <StatusBar type="success" message={`Displaying search results for "${searchTerm}"`} />}
                 <VideoList videos={videos}/>
               </div>
             }

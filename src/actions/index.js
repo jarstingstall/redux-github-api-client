@@ -20,7 +20,7 @@ function receiveVideos(response, search) {
 export function fetchVideos(search) {
   return dispatch => {
     dispatch(requestVideos(search));
-    return axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&order=date&key=${API_KEY}`)
+    return axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&order=date&maxResults=20&key=${API_KEY}`)
       .then(response => dispatch(receiveVideos(response)));
   }
 }
