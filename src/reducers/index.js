@@ -1,12 +1,21 @@
-import { UPDATE_MESSAGE } from '../constants';
+import { REQUEST_VIDEOS, RECEIVE_VIDEOS } from '../constants';
 
 export function videos(state = [], action) {
   switch (action.type) {
-    case UPDATE_MESSAGE:
-      return {
-        text: action.text,
-        color: action.color
-      }
+    case RECEIVE_VIDEOS:
+      return action.videos;
+      break;
+    default:
+      return state;
+  }
+}
+
+export function isFetching(state = false, action) {
+  switch (action.type) {
+    case REQUEST_VIDEOS:
+      return true;
+    case RECEIVE_VIDEOS:
+      return false;
     default:
       return state;
   }
