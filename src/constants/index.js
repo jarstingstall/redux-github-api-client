@@ -1,2 +1,4 @@
 export const REQUEST_VIDEOS = 'REQUEST_VIDEOS';
 export const RECEIVE_VIDEOS = 'RECEIVE_VIDEOS';
+export const PLAY_VIDEO = 'PLAY_VIDEO';
+export const CLOSE_MODAL = 'CLOSE_MODAL';

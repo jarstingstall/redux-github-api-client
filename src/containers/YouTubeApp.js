@@ -1,21 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import SearchBar from '../components/SearchBar';
 import VideoList from '../components/VideoList';
 import SearchResults from '../components/SearchResults';
 import StatusBar from '../components/StatusBar';
-import { fetchVideos } from '../actions';
+import VideoPlayerModal from '../components/VideoPlayerModal';
+import { fetchVideos, playVideo, closeModal } from '../actions';
 
 class YouTubeApp extends Component {
 
   handleSearch(search) {
-    const { dispatch } = this.props;
-    dispatch(fetchVideos(search));
+    this.props.dispatch(fetchVideos(search));
+  }
+
+  handleVideoSelect(video) {
+    this.props.dispatch(playVideo(video));
+  }
+
+  handleModalClose() {
+    this.props.dispatch(closeModal());
   }
 
   render() {
-    const { videos, isFetching, searchTerm } = this.props;
+    const {
+      videos,
+      isFetching,
+      searchTerm,
+      currentlyPlaying,
+      modalIsOpen
+    } = this.props;
 
     return (
       <div className="container-fluid">
@@ -26,11 +39,12 @@ class YouTubeApp extends Component {
               <StatusBar type="warning" message="Loading..."/> :
               <div>
                 {searchTerm === '' ? '' : <StatusBar type="success" message={`Displaying search results for "${searchTerm}"`} />}
-                <VideoList videos={videos}/>
+                <VideoList videos={videos} onVideoSelect={this.handleVideoSelect.bind(this)} />
               </div>
             }
           </div>
         </div>
+        <VideoPlayerModal video={currentlyPlaying} isOpen={modalIsOpen} onModalClose={this.handleModalClose.bind(this)}/>
       </div>
     )
   }
@@ -40,6 +54,8 @@ export default connect(state =>
   ({
     videos: state.videos,
     isFetching: state.isFetching,
-    searchTerm: state.searchTerm
+    searchTerm: state.searchTerm,
+    currentlyPlaying: state.currentlyPlaying,
+    modalIsOpen: state.modalIsOpen
   }))
   (YouTubeApp);

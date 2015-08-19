@@ -1,4 +1,4 @@
-import { REQUEST_VIDEOS, RECEIVE_VIDEOS } from '../constants';
+import { REQUEST_VIDEOS, RECEIVE_VIDEOS, PLAY_VIDEO, CLOSE_MODAL } from '../constants';
 import axios from 'axios';
 
 const API_KEY = 'AIzaSyCgF9GGsJiYScC8_qzM9D6HfX7TC_2ioi4';
@@ -22,5 +22,18 @@ export function fetchVideos(search) {
     dispatch(requestVideos(search));
     return axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&order=date&maxResults=20&key=${API_KEY}`)
       .then(response => dispatch(receiveVideos(response)));
+  }
+}
+
+export function playVideo(video) {
+  return {
+    type: PLAY_VIDEO,
+    video
+  }
+}
+
+export function closeModal() {
+  return {
+    type: CLOSE_MODAL
   }
 }
